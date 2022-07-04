@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -18,10 +20,11 @@ public class TaskController {
     }
 
     @GetMapping("/")
-    public String getAll(Model model) {
-        List<Task> taskList = taskService.getAllTasks();
-        model.addAttribute("taskList", taskList);
-        model.addAttribute("taskSize", taskList.size());
+    public String getAllTasks(Model model) {
+        List<Task> list = taskService.getAllTasks();
+        System.out.println(list);
+        model.addAttribute("taskList", list);
+        model.addAttribute("taskSize", list.size());
         return "index";
     }
 
@@ -32,8 +35,16 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public String addTask(@ModelAttribute Task task) {
+    public String addTask(@RequestParam("priorityId") int priorityId,
+                          @RequestParam("description") String description,
+                          @RequestParam("dateTask") String dateTask) {
+        Task task = new Task();
+        task.setPriorityId(priorityId);
+        task.setDescription(description);
+        LocalDate date = LocalDate.parse(dateTask, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        task.setDateTask(date);
         taskService.saveTask(task);
         return "redirect:/";
     }
+
 }

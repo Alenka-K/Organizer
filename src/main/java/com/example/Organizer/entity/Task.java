@@ -3,7 +3,7 @@ package com.example.Organizer.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Task {
@@ -18,16 +18,15 @@ public class Task {
 
     private String description;
 
-
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
-    private Date dateTask;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateTask;
 
 
     public Task() {
 
     }
 
-    public Task(Integer id, Integer priorityId, String description, Date dateTask) {
+    public Task(Integer id, Integer priorityId, String description, LocalDate dateTask) {
         this.id = id;
         this.priorityId = priorityId;
         this.description = description;
@@ -59,11 +58,11 @@ public class Task {
         this.description = description;
     }
 
-    public Date getDateTask() {
+    public LocalDate getDateTask() {
         return dateTask;
     }
 
-    public void setDate(Date dateTask) {
+    public void setDateTask(LocalDate dateTask) {
         this.dateTask = dateTask;
     }
 
@@ -87,5 +86,15 @@ public class Task {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (dateTask != null ? dateTask.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", priorityId=" + priorityId +
+                ", description='" + description + '\'' +
+                ", dateTask=" + dateTask +
+                '}';
     }
 }

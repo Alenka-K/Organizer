@@ -25,6 +25,7 @@ private final TaskRepository taskRepository;
     }
 
     public List<Task> getAllTasks(){
-        return taskRepository.findAll();
+        return taskRepository.findAll(Sort.by(
+                Sort.Order.desc("priorityId")));
     }
 }
